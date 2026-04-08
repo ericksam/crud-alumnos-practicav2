@@ -1,5 +1,5 @@
 /**
- * DashboardPage - Panel principal
+ * DashboardPage - Panel principal profesional
  */
 
 import { useState, useEffect } from 'react'
@@ -13,7 +13,6 @@ import inscripcionService from '../services/inscripcionService'
 const DashboardPage = () => {
   const { user } = useAuth()
   
-  // Estados para estadísticas
   const [stats, setStats] = useState({
     alumnos: 0,
     aulas: 0,
@@ -22,7 +21,6 @@ const DashboardPage = () => {
   })
   const [loading, setLoading] = useState(true)
 
-  // Cargar estadísticas
   useEffect(() => {
     const fetchStats = async () => {
       try {
@@ -49,137 +47,162 @@ const DashboardPage = () => {
     fetchStats()
   }, [])
 
+  // Datos para las cards de métricas
+  const metricCards = [
+    {
+      label: 'Alumnos',
+      value: stats.alumnos,
+      icon: 'bi-people-fill',
+      color: 'primary',
+      link: '/alumnos'
+    },
+    {
+      label: 'Aulas',
+      value: stats.aulas,
+      icon: 'bi-building-fill',
+      color: 'info',
+      link: '/aulas'
+    },
+    {
+      label: 'Cursos',
+      value: stats.cursos,
+      icon: 'bi-book-fill',
+      color: 'success',
+      link: '/cursos'
+    },
+    {
+      label: 'Inscripciones',
+      value: stats.inscripciones,
+      icon: 'bi-clipboard-check-fill',
+      color: 'warning',
+      link: '/inscripciones'
+    }
+  ]
+
+  // quick actions
+  const quickActions = [
+    {
+      title: 'Alumnos',
+      emoji: '👨‍🎓',
+      description: 'Gestionar alumnos del sistema',
+      link: '/alumnos',
+      color: 'primary'
+    },
+    {
+      title: 'Aulas',
+      emoji: '🏫',
+      description: 'Administrar aulas disponibles',
+      link: '/aulas',
+      color: 'info'
+    },
+    {
+      title: 'Cursos',
+      emoji: '📚',
+      description: 'Gestionar cursos disponibles',
+      link: '/cursos',
+      color: 'success'
+    },
+    {
+      title: 'Inscripciones',
+      emoji: '📝',
+      description: 'Inscribir alumnos a cursos',
+      link: '/inscripciones',
+      color: 'warning'
+    }
+  ]
+
+  // Obtener iniciales del usuario
+  const userInitials = user?.email?.charAt(0).toUpperCase() || 'U'
+
   return (
     <div className="page-container fade-in">
-      <div className="mb-4">
-        <h1 className="mb-2">Bienvenido, {user?.email}</h1>
-        <p className="text-muted">Panel de gestión académica</p>
+      {/* Header de bienvenida */}
+      <div className="welcome-header mb-5">
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <h1 className="welcome-title">
+              <span className="text-gradient">Bienvenido</span>
+            </h1>
+            <p className="welcome-subtitle">
+              Panel de gestión académica
+            </p>
+          </div>
+          <div className="user-welcome-badge">
+            <span className="user-avatar-large">{userInitials}</span>
+            <span className="user-greeting">Hola, {user?.email?.split('@')[0]}</span>
+          </div>
+        </div>
       </div>
 
-      {/* Estadísticas */}
+      {/* Stats con loading */}
       {loading ? (
-        <div className="text-center py-4">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Cargando...</span>
+        <div className="loading-container">
+          <div className="loading-grid">
+            {[1,2,3,4].map(i => (
+              <div key={i} className="skeleton-card">
+                <div className="skeleton-icon"></div>
+                <div className="skeleton-text"></div>
+                <div className="skeleton-number"></div>
+              </div>
+            ))}
           </div>
         </div>
       ) : (
-        <div className="row g-3 mb-4">
-          <div className="col-md-3">
-            <div className="card bg-primary text-white">
-              <div className="card-body text-center">
-                <h2 className="mb-0">{stats.alumnos}</h2>
-                <small>Alumnos</small>
-              </div>
-            </div>
+        <>
+          {/* Metric Cards */}
+          <div className="metrics-grid mb-5">
+            {metricCards.map((metric, index) => (
+              <Link 
+                to={metric.link} 
+                key={metric.label}
+                className={`metric-card metric-${metric.color}`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="metric-icon-wrapper">
+                  <i className={`bi ${metric.icon}`}></i>
+                </div>
+                <div className="metric-content">
+                  <span className="metric-value">{metric.value}</span>
+                  <span className="metric-label">{metric.label}</span>
+                </div>
+                <div className="metric-arrow">
+                  <i className="bi bi-arrow-right"></i>
+                </div>
+              </Link>
+            ))}
           </div>
-          <div className="col-md-3">
-            <div className="card bg-info text-white">
-              <div className="card-body text-center">
-                <h2 className="mb-0">{stats.aulas}</h2>
-                <small>Aulas</small>
-              </div>
-            </div>
+
+          {/* Quick Actions */}
+          <div className="section-header mb-4">
+            <h2 className="section-title">
+              <i className="bi bi-lightning-charge-fill me-2"></i>
+              Acceso rápido
+            </h2>
           </div>
-          <div className="col-md-3">
-            <div className="card bg-success text-white">
-              <div className="card-body text-center">
-                <h2 className="mb-0">{stats.cursos}</h2>
-                <small>Cursos</small>
-              </div>
-            </div>
+
+          <div className="actions-grid">
+            {quickActions.map((action, index) => (
+              <Link 
+                to={action.link} 
+                key={action.title}
+                className="action-card"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className={`action-icon action-${action.color}`}>
+                  <span>{action.emoji}</span>
+                </div>
+                <div className="action-content">
+                  <h3 className="action-title">{action.title}</h3>
+                  <p className="action-description">{action.description}</p>
+                </div>
+                <div className="action-arrow">
+                  <i className="bi bi-chevron-right"></i>
+                </div>
+              </Link>
+            ))}
           </div>
-          <div className="col-md-3">
-            <div className="card bg-warning text-white">
-              <div className="card-body text-center">
-                <h2 className="mb-0">{stats.inscripciones}</h2>
-                <small>Inscripciones</small>
-              </div>
-            </div>
-          </div>
-        </div>
+        </>
       )}
-
-      <div className="row g-4">
-        <div className="col-md-4">
-          <div className="card h-100">
-            <div className="card-body text-center">
-              <h3 className="mb-3">👨‍🎓</h3>
-              <h5 className="card-title">Alumnos</h5>
-              <p className="card-text text-muted">
-                Gestionar alumnos del sistema
-              </p>
-              <Link to="/alumnos" className="btn btn-primary">
-                Ir a Alumnos
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-4">
-          <div className="card h-100">
-            <div className="card-body text-center">
-              <h3 className="mb-3">🏫</h3>
-              <h5 className="card-title">Aulas</h5>
-              <p className="card-text text-muted">
-                Administrar aulas disponibles
-              </p>
-              <Link to="/aulas" className="btn btn-primary">
-                Ir a Aulas
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-4">
-          <div className="card h-100">
-            <div className="card-body text-center">
-              <h3 className="mb-3">📚</h3>
-              <h5 className="card-title">Cursos</h5>
-              <p className="card-text text-muted">
-                Gestionar cursos disponibles
-              </p>
-              <Link to="/cursos" className="btn btn-primary">
-                Ir a Cursos
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-4">
-          <div className="card h-100">
-            <div className="card-body text-center">
-              <h3 className="mb-3">📝</h3>
-              <h5 className="card-title">Inscripciones</h5>
-              <p className="card-text text-muted">
-                Inscribir alumnos a cursos
-              </p>
-              <Link to="/inscripciones" className="btn btn-primary">
-                Ir a Inscripciones
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="row mt-4">
-        <div className="col-12">
-          <div className="card">
-            {/*<div className="card-header">
-              <h5 className="mb-0">Guía rápida</h5>
-            </div>
-            <div className="card-body">
-              <ul className="mb-0">
-                <li>Registrate e iniciá sesión para acceder al sistema</li>
-                <li>Desde el panel podés gestionar alumnos, aulas y cursos</li>
-                <li>Cada alumno puede pertenecer a un aula</li>
-                <li>Los cursos permiten inscribir alumnos</li>
-                <li>Las inscripciones relacionan alumnos con cursos</li>
-              </ul>
-            </div>*/ }
-          </div>
-        </div>
-      </div>
     </div>
   )
 }

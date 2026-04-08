@@ -1,5 +1,5 @@
 /**
- * RegisterPage - Página de registro
+ * RegisterPage - Página de registro profesional
  */
 
 import { useState } from 'react'
@@ -29,27 +29,22 @@ const RegisterPage = () => {
   const validateForm = () => {
     const newErrors = {}
 
-    // Email
     if (!formData.email) {
       newErrors.email = 'El email es requerido'
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email inválido'
     }
 
-    // Password
     if (!formData.password) {
       newErrors.password = 'La contraseña es requerida'
     } else if (formData.password.length < 6) {
-      newErrors.password = 'La contraseña debe tener al menos 6 caracteres'
-    } else if (!/(?=.*[A-Za-z])(?=.*\d)/.test(formData.password)) {
-      newErrors.password = 'Debe contener al menos una letra y un número'
+      newErrors.password = 'Mínimo 6 caracteres'
     }
 
-    // Confirmar password
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = 'Confirmá la contraseña'
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Las contraseñas no coinciden'
+      newErrors.confirmPassword = 'No coinciden'
     }
 
     setErrors(newErrors)
@@ -65,7 +60,7 @@ const RegisterPage = () => {
 
     setIsLoading(true)
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
     try {
       const response = await fetch(`${API_URL}/auth/register`, {
@@ -87,7 +82,6 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
           navigate('/login')
         }, 2000)
       } else {
-        // Manejar errores de validación del backend
         if (data.errors && Array.isArray(data.errors)) {
           const backendErrors = {}
           data.errors.forEach(err => {
@@ -106,29 +100,43 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
   }
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-dark">
-      <div className="card shadow-lg" style={{ width: '400px' }}>
-        <div className="card-body p-5">
-          <div className="text-center mb-4">
-            <h2 className="card-title">Crear Cuenta</h2>
-            <p className="text-muted">Registrate para comenzar</p>
+    <div className="login-page">
+      <div className="login-card fade-in">
+        {/* Header */}
+        <div className="text-center mb-4">
+          <div className="brand-logo mb-3">
+            <span style={{ fontSize: '3rem' }}>🎓</span>
           </div>
+          <h1 className="login-title">Crear Cuenta</h1>
+          <p className="login-subtitle">Registrate para comenzar</p>
+        </div>
 
-          {serverError && (
-            <div className="alert alert-danger" role="alert">
-              {serverError}
-            </div>
-          )}
+        {/* Errores */}
+        {serverError && (
+          <div className="alert alert-danger" role="alert">
+            <i className="bi bi-exclamation-triangle me-2"></i>
+            {serverError}
+          </div>
+        )}
 
-          {successMessage && (
-            <div className="alert alert-success" role="alert">
-              {successMessage}
-            </div>
-          )}
+        {successMessage && (
+          <div className="alert alert-success" role="alert">
+            <i className="bi bi-check-circle me-2"></i>
+            {successMessage}
+          </div>
+        )}
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">Email</label>
+        {/* Formulario */}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              <i className="bi bi-envelope me-2"></i>
+              Email
+            </label>
+            <div className="input-group">
+              <span className="input-group-text">
+                <i className="bi bi-at"></i>
+              </span>
               <input
                 type="email"
                 className={`form-control ${errors.email ? 'is-invalid' : ''}`}
@@ -139,13 +147,21 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
                 placeholder="tu@email.com"
                 disabled={isLoading}
               />
-              {errors.email && (
-                <div className="invalid-feedback">{errors.email}</div>
-              )}
             </div>
+            {errors.email && (
+              <div className="invalid-feedback d-block">{errors.email}</div>
+            )}
+          </div>
 
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">Contraseña</label>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              <i className="bi bi-key me-2"></i>
+              Contraseña
+            </label>
+            <div className="input-group">
+              <span className="input-group-text">
+                <i className="bi bi-lock"></i>
+              </span>
               <input
                 type="password"
                 className={`form-control ${errors.password ? 'is-invalid' : ''}`}
@@ -153,21 +169,24 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Mínimo 6 caracteres"
+                placeholder="••••••••"
                 disabled={isLoading}
               />
-              {errors.password && (
-                <div className="invalid-feedback">{errors.password}</div>
-              )}
-              <small className="text-muted">
-                Al menos una letra y un número
-              </small>
             </div>
+            {errors.password && (
+              <div className="invalid-feedback d-block">{errors.password}</div>
+            )}
+          </div>
 
-            <div className="mb-4">
-              <label htmlFor="confirmPassword" className="form-label">
-                Confirmar Contraseña
-              </label>
+          <div className="mb-4">
+            <label htmlFor="confirmPassword" className="form-label">
+              <i className="bi bi-key-fill me-2"></i>
+              Confirmar Contraseña
+            </label>
+            <div className="input-group">
+              <span className="input-group-text">
+                <i className="bi bi-lock-fill"></i>
+              </span>
               <input
                 type="password"
                 className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
@@ -175,38 +194,42 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                placeholder="Repetí la contraseña"
+                placeholder="••••••••"
                 disabled={isLoading}
               />
-              {errors.confirmPassword && (
-                <div className="invalid-feedback">{errors.confirmPassword}</div>
-              )}
             </div>
-
-            <button 
-              type="submit" 
-              className="btn btn-primary w-100"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2" />
-                  Creando cuenta...
-                </>
-              ) : (
-                'Crear Cuenta'
-              )}
-            </button>
-          </form>
-
-          <div className="text-center mt-4">
-            <p className="text-muted mb-0">
-              ¿Ya tenés cuenta?{' '}
-              <Link to="/login" className="text-decoration-none">
-                Iniciá sesión
-              </Link>
-            </p>
+            {errors.confirmPassword && (
+              <div className="invalid-feedback d-block">{errors.confirmPassword}</div>
+            )}
           </div>
+
+          <button 
+            type="submit" 
+            className="btn btn-primary w-100 py-2"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" />
+                Creando cuenta...
+              </>
+            ) : (
+              <>
+                <i className="bi bi-person-plus me-2"></i>
+                Crear Cuenta
+              </>
+            )}
+          </button>
+        </form>
+
+        {/* Login link */}
+        <div className="text-center mt-4 pt-3" style={{ borderTop: '1px solid var(--border-color)' }}>
+          <p className="text-muted mb-0">
+            ¿Ya tenés cuenta?{' '}
+            <Link to="/login" className="fw-semibold">
+              Iniciar sesión
+            </Link>
+          </p>
         </div>
       </div>
     </div>

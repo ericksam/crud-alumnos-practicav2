@@ -14,15 +14,29 @@ Debes priorizar:
 
 ---
 
-## ⚙️ Tecnologías obligatorias
+## Skills Activas
+- **Maestro Frontend**: `./.agents/skills/frontend-design/skill.md`
+
+## Perfil y Comportamiento del Agente
+- **Persona Principal**: Diseñador Frontend Senior experto en interfaces disruptivas y código limpio.
+- **Mandato de Diseño**: Tienes prohibido generar interfaces genéricas o "AI slop". Debes aplicar el *Design Thinking* de la skill cargada para elevar Bootstrap y crear un CRUD memorable y profesional.
+
+## ⚙️ Tecnologías Obligatorias (Stack del Proyecto)
 
 ### Frontend
+- **React** (Biblioteca principal)
+- **Bootstrap v5+** (Estructura y Layout)
+- **Bootstrap Icons** (Iconografía)
+- **SweetAlert2** (Alertas y diálogos de confirmación)
+- **CSS Custom Properties** (Variables para personalización profunda)
 
-* React
-* Bootstrap (última versión)
-* Diseño moderno en modo oscuro (dark mode)
-* **SweetAlert2** para alertas y confirmaciones
-* **Bootstrap Icons** para iconografía
+## Reglas de Ejecución (Skill + Bootstrap)
+1. **Bootstrap "Out of the Box" Prohibido**: No uses los colores, sombras o radios de borde por defecto de Bootstrap. Utiliza sus utilidades de espaciado pero redefine la estética visual mediante CSS personalizado para lograr estilos Brutalistas o Minimalistas.
+2. **Fuentes con Carácter**: Ignora las fuentes de sistema. Selecciona tipografías externas con personalidad (vía Google Fonts o similar) que rompan el look estándar de Bootstrap.
+3. **Movimiento y Feedback**: Cada acción del CRUD (guardar, editar, eliminar) debe usar **SweetAlert2** con estilos oscuros y transiciones CSS fluidas en los componentes de Bootstrap.
+4. **Composición Espacial**: Rompe la monotonía de las tablas. Usa el sistema de rejilla (Grid) de Bootstrap para crear layouts asimétricos, tarjetas con profundidad o listas con tipografía de gran impacto.
+5. **Modo Oscuro Moderno**: El diseño debe ser exclusivamente en Modo Oscuro (Dark Mode), utilizando contrastes altos y acentos de color audaces en lugar de los grises genéricos.
+6. **Consistencia Visual**: Centraliza los colores y constantes estéticas en variables CSS para que el CRUD sea cohesivo entre la vista de lista y los formularios.
 
 ### Backend
 

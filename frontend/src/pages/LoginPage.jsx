@@ -1,5 +1,5 @@
 /**
- * LoginPage - Página de inicio de sesión
+ * LoginPage - Página de inicio de sesión profesional
  */
 
 import { useState } from 'react'
@@ -19,13 +19,11 @@ const LoginPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  // Redirección después de login
   const from = location.state?.from?.pathname || '/dashboard'
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
-    // Limpiar error del campo cuando el usuario escribe
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }))
     }
@@ -34,14 +32,12 @@ const LoginPage = () => {
   const validateForm = () => {
     const newErrors = {}
     
-    // Email
     if (!formData.email) {
       newErrors.email = 'El email es requerido'
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email inválido'
     }
 
-    // Password
     if (!formData.password) {
       newErrors.password = 'La contraseña es requerida'
     }
@@ -74,23 +70,36 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-dark">
-      <div className="card shadow-lg" style={{ width: '400px' }}>
-        <div className="card-body p-5">
-          <div className="text-center mb-4">
-            <h2 className="card-title">Iniciar Sesión</h2>
-            <p className="text-muted">Ingresá tus credenciales</p>
+    <div className="login-page">
+      <div className="login-card fade-in">
+        {/* Header */}
+        <div className="text-center mb-4">
+          <div className="brand-logo mb-3">
+            <span style={{ fontSize: '3rem' }}>🎓</span>
           </div>
+          <h1 className="login-title">Bienvenido</h1>
+          <p className="login-subtitle">Ingresá tus credenciales para continuar</p>
+        </div>
 
-          {serverError && (
-            <div className="alert alert-danger" role="alert">
-              {serverError}
-            </div>
-          )}
+        {/* Error del servidor */}
+        {serverError && (
+          <div className="alert alert-danger" role="alert">
+            <i className="bi bi-exclamation-triangle me-2"></i>
+            {serverError}
+          </div>
+        )}
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">Email</label>
+        {/* Formulario */}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              <i className="bi bi-envelope me-2"></i>
+              Email
+            </label>
+            <div className="input-group">
+              <span className="input-group-text">
+                <i className="bi bi-at"></i>
+              </span>
               <input
                 type="email"
                 className={`form-control ${errors.email ? 'is-invalid' : ''}`}
@@ -101,13 +110,21 @@ const LoginPage = () => {
                 placeholder="tu@email.com"
                 disabled={isLoading}
               />
-              {errors.email && (
-                <div className="invalid-feedback">{errors.email}</div>
-              )}
             </div>
+            {errors.email && (
+              <div className="invalid-feedback d-block">{errors.email}</div>
+            )}
+          </div>
 
-            <div className="mb-4">
-              <label htmlFor="password" className="form-label">Contraseña</label>
+          <div className="mb-4">
+            <label htmlFor="password" className="form-label">
+              <i className="bi bi-key me-2"></i>
+              Contraseña
+            </label>
+            <div className="input-group">
+              <span className="input-group-text">
+                <i className="bi bi-lock"></i>
+              </span>
               <input
                 type="password"
                 className={`form-control ${errors.password ? 'is-invalid' : ''}`}
@@ -118,35 +135,39 @@ const LoginPage = () => {
                 placeholder="••••••••"
                 disabled={isLoading}
               />
-              {errors.password && (
-                <div className="invalid-feedback">{errors.password}</div>
-              )}
             </div>
-
-            <button 
-              type="submit" 
-              className="btn btn-primary w-100"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2" />
-                  Ingresando...
-                </>
-              ) : (
-                'Iniciar Sesión'
-              )}
-            </button>
-          </form>
-
-          <div className="text-center mt-4">
-            <p className="text-muted mb-0">
-              ¿No tenés cuenta?{' '}
-              <Link to="/register" className="text-decoration-none">
-                Registrate
-              </Link>
-            </p>
+            {errors.password && (
+              <div className="invalid-feedback d-block">{errors.password}</div>
+            )}
           </div>
+
+          <button 
+            type="submit" 
+            className="btn btn-primary w-100 py-2"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" />
+                Verificando...
+              </>
+            ) : (
+              <>
+                <i className="bi bi-box-arrow-in-right me-2"></i>
+                Iniciar Sesión
+              </>
+            )}
+          </button>
+        </form>
+
+        {/* Registro */}
+        <div className="text-center mt-4 pt-3" style={{ borderTop: '1px solid var(--border-color)' }}>
+          <p className="text-muted mb-0">
+            ¿No tenés cuenta?{' '}
+            <Link to="/register" className="fw-semibold">
+              Crear cuenta
+            </Link>
+          </p>
         </div>
       </div>
     </div>

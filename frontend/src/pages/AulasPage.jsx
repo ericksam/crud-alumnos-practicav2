@@ -3,7 +3,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import Swal from 'sweetalert2'
+import Swal from '../utils/swalConfig'
 import aulaService from '../services/aulaService'
 import cursoService from '../services/cursoService'
 import inscripcionService from '../services/inscripcionService'

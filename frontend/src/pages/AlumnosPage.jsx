@@ -4,7 +4,8 @@
 
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import Swal from 'sweetalert2'
+import Swal from '../utils/swalConfig'
+import EmptyState from '../components/EmptyState'
 import alumnoService from '../services/alumnoService'
 
 const AlumnosPage = () => {
@@ -207,16 +208,13 @@ const AlumnosPage = () => {
           </div>
         </div>
       ) : alumnos.length === 0 ? (
-        <div className="card text-center py-5">
-          <div className="card-body">
-            <h5 className="card-title text-muted">No hay alumnos</h5>
-            <p className="card-text">Agregá el primer alumno para comenzar</p>
-            <button className="btn btn-primary" onClick={openCreateModal}>
-              <i className="bi bi-person-plus me-2"></i>
-              Nuevo Alumno
-            </button>
-          </div>
-        </div>
+        <EmptyState 
+          emoji="👨‍🎓"
+          title="No hay alumnos" 
+          description="Agregá el primer alumno para comenzar"
+          actionLabel="Nuevo Alumno"
+          onAction={openCreateModal}
+        />
       ) : (
         <div className="card">
           <div className="table-responsive">
