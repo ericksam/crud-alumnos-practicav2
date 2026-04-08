@@ -1,7 +1,14 @@
 # ============================================
-# DEPENDENCIAS
+# BACKEND
 # ============================================
-node_modules/
+backend/node_modules/
+backend/package-lock.json
+
+# ============================================
+# FRONTEND
+# ============================================
+frontend/node_modules/
+frontend/dist/
 
 # ============================================
 # ENTORNO (NUNCA SUBIR)
@@ -9,6 +16,8 @@ node_modules/
 .env
 .env.local
 .env.*.local
+backend/.env
+frontend/.env
 
 # ============================================
 # VARIOS
@@ -24,12 +33,6 @@ npm-debug.log*
 .vscode/
 *.swp
 *.swo
-
-# ============================================
-# BUILD
-# ============================================
-# dist/ - commenting out for Railway deployment
-# build/
 
 # ============================================
 # ARCHIVOS NO DESEADOS

@@ -79,6 +79,13 @@ const getByCurso = async (cursoId) => {
           nombre: true,
           email: true
         }
+      },
+      curso: {
+        select: {
+          id: true,
+          nombre: true,
+          descripcion: true
+        }
       }
     },
     orderBy: {

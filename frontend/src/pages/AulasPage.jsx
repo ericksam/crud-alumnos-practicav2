@@ -273,9 +273,13 @@ const AulasPage = () => {
                       </span>
                     </td>
                     <td>
-                      <span className="badge bg-secondary">
-                        {aula._count?.cursos || 0}
-                      </span>
+                      {aula.cursos?.length > 0 ? (
+                        <span className="badge bg-secondary">
+                          {aula.cursos.map(c => c.nombre).join(', ')}
+                        </span>
+                      ) : (
+                        <span className="badge bg-secondary">Sin cursos</span>
+                      )}
                     </td>
                     <td onClick={(e) => e.stopPropagation()}>
                       <button 

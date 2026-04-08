@@ -20,6 +20,9 @@ const getAll = async () => {
       },
       cursos: {
         select: {
+          id: true,
+          nombre: true,
+          descripcion: true,
           _count: {
             select: {
               inscripciones: true
