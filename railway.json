@@ -1,0 +1,25 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "numBuilds": 1
+  },
+  "deploy": {
+    "numReplicas": 1
+  },
+  "services": [
+    {
+      "name": "backend",
+      "rootDir": "backend",
+      "buildCommand": "npm install && npm run prisma:generate",
+      "startCommand": "npm start",
+      "healthcheckPath": "/health",
+      "healthcheckPort": 3000
+    },
+    {
+      "name": "frontend",
+      "rootDir": "frontend",
+      "buildCommand": "npm install && npm run build",
+      "startCommand": "npm run preview -- --port $PORT"
+    }
+  ]
+}
